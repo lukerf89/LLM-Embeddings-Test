@@ -67,11 +67,6 @@ transformer_models = [
     "roberta-base"
 ]
 
-# Word embedding models
-word_models = [
-    "glove-wiki-gigaword-100"
-]
-
 user_sentence = input("Enter a sentence to generate embeddings: ")
 
 print("\n" + "="*65)
@@ -83,12 +78,16 @@ for model_name in transformer_models:
     display_token_table(model_name, tokens, embeddings)
     print("=" * 65)
 
+# Optional: Try GloVe if available
 print("\n" + "="*65)
 print("WORD EMBEDDING MODELS (Static Embeddings)")
 print("="*65)
 
-for model_name in word_models:
-    tokens, embeddings = get_word_embeddings(model_name, user_sentence)
-    if len(tokens) > 0:  # Only display if model loaded successfully
-        display_token_table(model_name, tokens, embeddings, is_numpy=True)
+try:
+    tokens, embeddings = get_word_embeddings("glove-wiki-gigaword-100", user_sentence)
+    if len(tokens) > 0:
+        display_token_table("glove-wiki-gigaword-100", tokens, embeddings, is_numpy=True)
         print("=" * 65)
+except:
+    print("GloVe model unavailable (requires internet connection on first use)")
+    print("=" * 65)
